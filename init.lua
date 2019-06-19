@@ -23,13 +23,14 @@ do  -- app manager
     -- mode:bind({'shift'}, 'v', app_man:toggle('VimR'))
     -- mode:bind({}, 'v', app_man:toggle('MacVim'))
     mode:bind({}, 'n', app_man:toggle('Notes'))
-    mode:bind({}, 's', app_man:toggle('Safari'))
+    mode:bind({}, 's', app_man:toggle('Slack'))
     mode:bind({}, 'f', app_man:toggle('Finder'))
     mode:bind({}, 'r', app_man:toggle('Reminders'))
     mode:bind({}, 'e', app_man:toggle('Evernote'))
     mode:bind({}, 'p', app_man:toggle('PhpStorm'))
     mode:bind({}, 'a', app_man:toggle('Atom'))
     mode:bind({}, 'm', app_man:toggle('Postman'))
+    mode:bind({}, 'w', app_man:toggle('WebStorm'))
     mode:bind({}, 'k', app_man:toggle('KakaoTalk'))
     -- mode:bind({}, 't', app_man:toggle('Telegram'))
     mode:bind({}, 'i', app_man:toggle('iTerm'))
@@ -38,6 +39,50 @@ do  -- app manager
     mode:bind({}, 'tab', app_man.focusNextScreen)
 
     -- hs.hotkey.bind({'cmd', 'shift'}, 'space', app_man:toggle('Terminal'))
+      local tabTable = {}
+
+    tabTable['Slack'] = {
+        left = { mod = {'option'}, key = 'up' },
+        right = { mod = {'option'}, key = 'down' }
+    }
+    tabTable['Safari'] = {
+        left = { mod = {'control', 'shift'}, key = 'tab' },
+        right = { mod = {'control'}, key = 'tab' }
+    }
+    tabTable['터미널'] = {
+        left = { mod = {'control', 'shift'}, key = 'tab' },
+        right = { mod = {'control'}, key = 'tab' }
+    }
+    tabTable['Terminal'] = {
+        left = { mod = {'control', 'shift'}, key = 'tab' },
+        right = { mod = {'control'}, key = 'tab' }
+    }
+    tabTable['iTerm2'] = {
+        left = { mod = {'control', 'shift'}, key = 'tab' },
+        right = { mod = {'control'}, key = 'tab' }
+    }
+    tabTable['IntelliJ IDEA'] = {
+        left = { mod = {'command', 'shift'}, key = '[' },
+        right = { mod = {'command', 'shift'}, key = ']' }
+    }
+    tabTable['PhpStorm'] = {
+        left = { mod = {'command', 'shift'}, key = '[' },
+        right = { mod = {'command', 'shift'}, key = ']' }
+    }
+    tabTable['_else_'] = {
+        left = { mod = {'control'}, key = 'pageup' },
+        right = { mod = {'control'}, key = 'pagedown' }
+    }
+      local function tabMove(dir)
+        return function()
+            local activeAppName = hs.application.frontmostApplication():name()
+            local tab = tabTable[activeAppName] or tabTable['_else_']
+            hs.eventtap.keyStroke(tab[dir]['mod'], tab[dir]['key'])
+        end
+    end
+
+    f13_mode:bind({}, ',', tabMove('left'), function() end, tabMove('left'))
+    f13_mode:bind({}, '.', tabMove('right'), function() end, tabMove('right'))
 end
 
 do  -- winmove
@@ -57,6 +102,7 @@ do  -- winmove
     mode:bind({}, '-', win_move.prev_screen)
     mode:bind({}, '=', win_move.next_screen)
 end
+
 
 hs.alert.show('loaded')
 
