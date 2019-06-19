@@ -39,7 +39,8 @@ do  -- app manager
     mode:bind({}, 'tab', app_man.focusNextScreen)
 
     -- hs.hotkey.bind({'cmd', 'shift'}, 'space', app_man:toggle('Terminal'))
-      local tabTable = {}
+    
+    local tabTable = {}
 
     tabTable['Slack'] = {
         left = { mod = {'option'}, key = 'up' },
@@ -73,7 +74,7 @@ do  -- app manager
         left = { mod = {'control'}, key = 'pageup' },
         right = { mod = {'control'}, key = 'pagedown' }
     }
-      local function tabMove(dir)
+    local function tabMove(dir)
         return function()
             local activeAppName = hs.application.frontmostApplication():name()
             local tab = tabTable[activeAppName] or tabTable['_else_']
@@ -103,6 +104,4 @@ do  -- winmove
     mode:bind({}, '=', win_move.next_screen)
 end
 
-
 hs.alert.show('loaded')
-
