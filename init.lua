@@ -84,8 +84,8 @@ do  -- app manager
         end
     end
 
-    f13_mode:bind({}, ',', tabMove('left'), function() end, tabMove('left'))
-    f13_mode:bind({}, '.', tabMove('right'), function() end, tabMove('right'))
+    f13_mode:bind({}, '[', tabMove('left'), function() end, tabMove('left'))
+    f13_mode:bind({}, ']', tabMove('right'), function() end, tabMove('right'))
 end
 
 do  -- winmove
