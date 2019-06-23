@@ -22,6 +22,8 @@ do  -- app manager
     mode:bind({}, 'q', app_man:toggle('Sequel Pro'))
     -- mode:bind({'shift'}, 'v', app_man:toggle('VimR'))
     -- mode:bind({}, 'v', app_man:toggle('MacVim'))
+    mode:bind({}, 't', app_man:toggle('Terminal'))
+    mode:bind({}, 'b', app_man:toggle('Ridibooks'))
     mode:bind({}, 'n', app_man:toggle('Notes'))
     mode:bind({}, 's', app_man:toggle('Slack'))
     mode:bind({}, 'f', app_man:toggle('Finder'))
