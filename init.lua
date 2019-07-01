@@ -36,6 +36,7 @@ do  -- app manager
     mode:bind({}, 'k', app_man:toggle('KakaoTalk'))
     -- mode:bind({}, 't', app_man:toggle('Telegram'))
     mode:bind({}, 'i', app_man:toggle('iTerm'))
+    mode:bind({}, 'v', app_man:toggle('Preview'))
 
     -- mode:bind({'shift'}, 'tab', app_man.focusPreviousScreen)
     mode:bind({}, 'tab', app_man.focusNextScreen)
