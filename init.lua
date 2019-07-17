@@ -107,4 +107,12 @@ do  -- winmove
     mode:bind({}, '=', win_move.next_screen)
 end
 
+do  -- clipboard history
+    local clipboard = require('modules.clipboard')
+    local mode = f13_mode
+    clipboard.setSize(10)
+    f13_mode:bind({}, '`', clipboard.showList)
+    f13_mode:bind({'shift'}, '`', clipboard.clear)
+end
+
 hs.alert.show('loaded')
