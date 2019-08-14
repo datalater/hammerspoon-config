@@ -74,6 +74,10 @@ do  -- app manager
         left = { mod = {'command', 'shift'}, key = '[' },
         right = { mod = {'command', 'shift'}, key = ']' }
     }
+    tabTable['WebStorm'] = {
+        left = { mod = {'command', 'shift'}, key = '[' },
+        right = { mod = {'command', 'shift'}, key = ']' }
+    }
     tabTable['_else_'] = {
         left = { mod = {'control'}, key = 'pageup' },
         right = { mod = {'control'}, key = 'pagedown' }
