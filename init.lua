@@ -2,6 +2,13 @@
 
 require('luarocks.loader')
 
+-- Hammerspoon reload
+hs.hotkey.bind({'option', 'cmd'}, 'r',  hs.reload)
+
+-- WindowHints
+hs.hints.hintChars = {'1', '2', '3', '4', 'Q', 'W', 'E', 'R'}
+hs.hotkey.bind({'shift'}, 'F1', hs.hints.windowHints)
+
 local f13_mode = hs.hotkey.modal.new()
 hs.hotkey.bind({}, 'f13', function() f13_mode:enter() end, function() f13_mode:exit() end)
 
