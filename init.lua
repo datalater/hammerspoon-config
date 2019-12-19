@@ -1,6 +1,7 @@
 -- hammerspoon config
 
 require('luarocks.loader')
+require('modules.inputsource_aurora')
 
 -- Hammerspoon reload
 hs.hotkey.bind({'option', 'cmd'}, 'r',  hs.reload)
