@@ -39,7 +39,7 @@ do  -- app manager
     mode:bind({}, 'e', app_man:toggle('Evernote'))
     mode:bind({}, 'p', app_man:toggle('PhpStorm'))
     mode:bind({}, 'w', app_man:toggle('WebStorm'))
-    mode:bind({}, 'd', app_man:toggle('DataGrip'))
+    mode:bind({}, 'd', app_man:toggle('Discord'))
     mode:bind({}, 'a', app_man:toggle('Atom'))
     mode:bind({}, 'm', app_man:toggle('Postman'))
     mode:bind({}, 'k', app_man:toggle('KakaoTalk'))
