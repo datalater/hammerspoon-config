@@ -119,6 +119,11 @@ do  -- winmove
     mode:bind({}, '9', win_move.right_top)
     mode:bind({}, '-', win_move.prev_screen)
     mode:bind({}, '=', win_move.next_screen)
+
+    mode:bind({}, 'a', win_move.more_left_padding)
+    mode:bind({}, 'd', win_move.more_right_padding)
+    mode:bind({}, 'w', win_move.more_up_padding)
+    mode:bind({}, 's', win_move.more_down_padding)
 end
 
 do  -- clipboard history
