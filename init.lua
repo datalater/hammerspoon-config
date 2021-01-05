@@ -1,27 +1,37 @@
 -- hammerspoon config
-
 require('luarocks.loader')
 require('modules.inputsource_aurora')
+require('modules.pinshot')
 
 -- Hammerspoon reload
-hs.hotkey.bind({'option', 'cmd'}, 'r',  hs.reload)
+hs.hotkey.bind({'option', 'cmd'}, 'r', hs.reload)
 
 -- WindowHints
 hs.hints.hintChars = {'1', '2', '3', '4', 'Q', 'W', 'E', 'R'}
 hs.hotkey.bind({'shift'}, 'F1', hs.hints.windowHints)
 
 local f13_mode = hs.hotkey.modal.new()
-hs.hotkey.bind({}, 'f13', function() f13_mode:enter() end, function() f13_mode:exit() end)
+hs.hotkey.bind({}, 'f13', function() f13_mode:enter() end,
+               function() f13_mode:exit() end)
 
 local f14_mode = hs.hotkey.modal.new()
-hs.hotkey.bind({}, 'f14', function() f14_mode:enter() end, function() f14_mode:exit() end)
+hs.hotkey.bind({}, 'f14', function() f14_mode:enter() end,
+               function() f14_mode:exit() end)
 
-do  -- hints
+do -- hints
     -- hs.hotkey.bind({}, 'f16', hs.hints.windowHints)
     -- hs.hints.hintChars = {'q', 'w', 'e', 'r', 'u', 'i', 'o', 'p', 'h', 'j', 'k', 'l', 'm', ',', '.' }
 end
 
-do  -- app manager
+do -- pinshot
+    local pinshot = require('modules.pinshot')
+    local mode = f14_mode
+    f14_mode:bind({}, '[', pinshot.show)
+    f14_mode:bind({}, ']', pinshot.clear)
+    f14_mode:bind({}, '\\', pinshot.clearAll)
+end
+
+do -- app manager
     local app_man = require('modules.appman')
     local mode = f13_mode
 
@@ -52,44 +62,44 @@ do  -- app manager
     mode:bind({}, 'tab', app_man.focusNextScreen)
 
     -- hs.hotkey.bind({'cmd', 'shift'}, 'space', app_man:toggle('Terminal'))
-    
+
     local tabTable = {}
 
     tabTable['Slack'] = {
-        left = { mod = {'option'}, key = 'up' },
-        right = { mod = {'option'}, key = 'down' }
+        left = {mod = {'option'}, key = 'up'},
+        right = {mod = {'option'}, key = 'down'}
     }
     tabTable['Safari'] = {
-        left = { mod = {'control', 'shift'}, key = 'tab' },
-        right = { mod = {'control'}, key = 'tab' }
+        left = {mod = {'control', 'shift'}, key = 'tab'},
+        right = {mod = {'control'}, key = 'tab'}
     }
     tabTable['터미널'] = {
-        left = { mod = {'control', 'shift'}, key = 'tab' },
-        right = { mod = {'control'}, key = 'tab' }
+        left = {mod = {'control', 'shift'}, key = 'tab'},
+        right = {mod = {'control'}, key = 'tab'}
     }
     tabTable['Terminal'] = {
-        left = { mod = {'control', 'shift'}, key = 'tab' },
-        right = { mod = {'control'}, key = 'tab' }
+        left = {mod = {'control', 'shift'}, key = 'tab'},
+        right = {mod = {'control'}, key = 'tab'}
     }
     tabTable['iTerm2'] = {
-        left = { mod = {'control', 'shift'}, key = 'tab' },
-        right = { mod = {'control'}, key = 'tab' }
+        left = {mod = {'control', 'shift'}, key = 'tab'},
+        right = {mod = {'control'}, key = 'tab'}
     }
     tabTable['IntelliJ IDEA'] = {
-        left = { mod = {'command', 'shift'}, key = '[' },
-        right = { mod = {'command', 'shift'}, key = ']' }
+        left = {mod = {'command', 'shift'}, key = '['},
+        right = {mod = {'command', 'shift'}, key = ']'}
     }
     tabTable['PhpStorm'] = {
-        left = { mod = {'command', 'shift'}, key = '[' },
-        right = { mod = {'command', 'shift'}, key = ']' }
+        left = {mod = {'command', 'shift'}, key = '['},
+        right = {mod = {'command', 'shift'}, key = ']'}
     }
     tabTable['WebStorm'] = {
-        left = { mod = {'command', 'shift'}, key = '[' },
-        right = { mod = {'command', 'shift'}, key = ']' }
+        left = {mod = {'command', 'shift'}, key = '['},
+        right = {mod = {'command', 'shift'}, key = ']'}
     }
     tabTable['_else_'] = {
-        left = { mod = {'control'}, key = 'pageup' },
-        right = { mod = {'control'}, key = 'pagedown' }
+        left = {mod = {'control'}, key = 'pageup'},
+        right = {mod = {'control'}, key = 'pagedown'}
     }
     local function tabMove(dir)
         return function()
@@ -103,7 +113,7 @@ do  -- app manager
     f13_mode:bind({}, '.', tabMove('right'), function() end, tabMove('right'))
 end
 
-do  -- winmove
+do -- winmove
     local win_move = require('modules.hammerspoon_winmove.hammerspoon_winmove')
     local mode = f14_mode
 
@@ -126,7 +136,7 @@ do  -- winmove
     mode:bind({}, 's', win_move.more_down_padding)
 end
 
-do  -- clipboard history
+do -- clipboard history
     local clipboard = require('modules.clipboard')
     local mode = f13_mode
     clipboard.setSize(10)
