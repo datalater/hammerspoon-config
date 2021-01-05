@@ -14,11 +14,13 @@ end
 
 function obj.clearAll()
     print(hs.inspect.inspect(#mouseCircles))
-
+    print(hs.inspect.inspect(mouseCircles))
+    
     if #mouseCircles ~= 0 then
         hs.fnutils.each(mouseCircles, function(circle)
             circle:delete()
         end)
+        mouseCircles = {}
     end
 end
 
