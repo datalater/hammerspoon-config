@@ -1,7 +1,6 @@
 -- hammerspoon config
 require('luarocks.loader')
 require('modules.inputsource_aurora')
-require('modules.pinshot')
 
 -- Hammerspoon reload
 hs.hotkey.bind({'option', 'cmd'}, 'r', hs.reload)
@@ -21,14 +20,6 @@ hs.hotkey.bind({}, 'f14', function() f14_mode:enter() end,
 do -- hints
     -- hs.hotkey.bind({}, 'f16', hs.hints.windowHints)
     -- hs.hints.hintChars = {'q', 'w', 'e', 'r', 'u', 'i', 'o', 'p', 'h', 'j', 'k', 'l', 'm', ',', '.' }
-end
-
-do -- pinshot
-    local pinshot = require('modules.pinshot')
-    local mode = f14_mode
-    f14_mode:bind({}, '[', pinshot.show)
-    f14_mode:bind({}, ']', pinshot.clear)
-    f14_mode:bind({}, '\\', pinshot.clearAll)
 end
 
 do -- app manager
