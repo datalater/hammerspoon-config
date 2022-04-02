@@ -1,6 +1,7 @@
 local boxes = {}
 local inputEnglish = "com.apple.keylayout.ABC"
-local box_height = 23
+-- 13인치: 23, 16인치: 36
+local box_height = 36
 local box_alpha = 0.5
 
 -- 입력소스 변경 이벤트에 이벤트 리스너를 달아준다
