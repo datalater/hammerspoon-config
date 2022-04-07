@@ -40,7 +40,7 @@ do -- app manager
     mode:bind({}, 'r', app_man:toggle('Reminders'))
     mode:bind({}, 'e', app_man:toggle('Evernote'))
     mode:bind({}, 'w', app_man:toggle('WebStorm'))
-    mode:bind({}, 'd', app_man:toggle('ScreenBrush'))
+    mode:bind({}, 'd', app_man:toggle('Discord'))
     mode:bind({}, 'a', app_man:toggle('Atom'))
     mode:bind({}, 'p', app_man:toggle('Preview'))
     -- mode:bind({}, 'p', app_man:toggle('PhpStorm'))
