@@ -39,6 +39,7 @@ do -- app manager
     mode:bind({'shift'}, 'm', app_man:toggle('Melon'))
     mode:bind({}, 'n', app_man:toggle('Notion'))
     mode:bind({}, 'p', app_man:toggle('Preview'))
+    mode:bind({'shift'}, 'p', app_man:toggle('Postico 2'))
     mode:bind({}, 'q', app_man:toggle('Sequel Pro'))
     mode:bind({}, 'r', app_man:toggle('Reminders'))
     mode:bind({}, 's', app_man:toggle('Slack'))
