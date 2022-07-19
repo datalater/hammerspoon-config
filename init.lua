@@ -30,6 +30,7 @@ do -- app manager
     mode:bind({}, 'b', app_man:toggle('Ridibooks'))
     mode:bind({}, 'c', app_man:toggle('Google Chrome'))
     mode:bind({}, 'd', app_man:toggle('Discord'))
+    mode:bind({'shift'}, 'd', app_man:toggle('Docker'))
     mode:bind({}, 'e', app_man:toggle('Evernote'))
     mode:bind({}, 'f', app_man:toggle('Finder'))
     mode:bind({'shift'}, 'f', app_man:toggle('Firefox'))
