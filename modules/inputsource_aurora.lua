@@ -1,7 +1,5 @@
 local boxes = {}
 local inputEnglish = "com.apple.keylayout.ABC"
--- 13인치: 23, 16인치: 36
-local box_height = 36
 local box_alpha = 0.5
 
 -- 입력소스 변경 이벤트에 이벤트 리스너를 달아준다
@@ -50,7 +48,7 @@ function draw_rectangle(target_draw, screen, offset, width, fill_color)
   local screen_frame_height      = screen:frame().y
   local screen_full_frame_height = screeng.y
   local height_delta             = screen_frame_height - screen_full_frame_height
-  local height                   = box_height
+  local height                   = screen:frame().y
 
   target_draw:setSize(hs.geometry.rect(screeng.x + offset, screen_full_frame_height, width, height))
   target_draw:setTopLeft(hs.geometry.point(screeng.x + offset, screen_full_frame_height))
