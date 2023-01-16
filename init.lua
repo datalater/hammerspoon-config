@@ -121,11 +121,23 @@ do -- winmove
     mode:bind({}, '9', win_move.right_top)
     mode:bind({}, '-', win_move.prev_screen)
     mode:bind({}, '=', win_move.next_screen)
+    
     mode:bind({}, 'q', win_move.left_main)
-    mode:bind({}, 'w', win_move.right_main)
-    mode:bind({}, 'e', win_move.right_sub_top)
-    mode:bind({}, 'r', win_move.right_sub_bottom)
+    mode:bind({}, 'w', win_move.center_main)
+    mode:bind({}, 'e', win_move.right_main)
+    mode:bind({}, 'r', win_move.left_sub)
     mode:bind({}, 't', win_move.right_sub)
+
+    mode:bind({}, 'a', win_move.left_padding_plus)
+    mode:bind({}, 'f', win_move.right_padding_plus)
+    mode:bind({}, 'z', win_move.flex_left)
+    mode:bind({}, 'v', win_move.flex_right)
+    mode:bind({}, 'c', win_move.flex_top)
+    mode:bind({}, 'x', win_move.flex_bottom)
+
+    mode:bind({}, 'y', win_move.move_left)
+    mode:bind({}, 'u', win_move.move_center)
+    mode:bind({}, 'i', win_move.move_right)
 end
 
 do -- clipboard history
