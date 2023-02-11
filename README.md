@@ -51,3 +51,7 @@ Q. 한영전환을 할 때마다 녹색 바가 뜨는데 없애고 싶어요. �
 require('luarocks.loader')
 require('modules.inputsource_aurora') -- 여기!
 ```
+
+## 📚 함께 읽기
+
+- [Learn Lua in 15 Minutes](https://tylerneylon.com/a/learn-lua/)
