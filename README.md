@@ -39,3 +39,15 @@ rm -rf ~/.hammerspoon && ln -s $(pwd) ~/.hammerspoon
 Q. M1 Mac에서 설치 오류가 난다면 어떻게 해야 하나요?
 
 > (1) M1이 아닌 인텔 버전으로 brew로 설치하고 (2) 인텔 버전으로 설치한 brew로 lua, luarocks, hammerspoon 설치합니다. [참고 - 인텔 버전으로 iterm 세팅하기](https://subicura.com/mac/dev/apple-silicon.html#apple-silicon-m1)
+
+Q. 한영전환을 할 때마다 녹색 바가 뜨는데 없애고 싶어요. 어떻게 해야 하나요?
+
+> `init.lua` 파일에서 `inputsource_aurora` 모듈을 불러오는 코드를 삭제하면 됩니다.
+>
+> 참고로 이 기능은 맥에서 한영전환이 느린 경우 현재 어느 입력 소스가 무엇인지 신호를 주기 위해 구현된 기능입니다. 맥북에서는 메뉴바 사이즈에 알맞게 정상적으로 나오지만 간혹 맥북에 연결한 외부 모니터에서는 사이즈가 이상하게 나오는 경우가 있습니다. 이런 경우에는 `inputsource_aurora` 모듈을 불러오는 코드를 삭제하면 비활성화 됩니다.
+
+```lua
+-- hammerspoon config
+require('luarocks.loader')
+require('modules.inputsource_aurora') -- 여기!
+```
