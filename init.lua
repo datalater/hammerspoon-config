@@ -26,34 +26,27 @@ do -- app manager
     local app_man = require('modules.appman')
     local mode = f13_mode
 
-    mode:bind({}, 'a', app_man:toggle('Atom'))
     mode:bind({}, 'b', app_man:toggle('Ridibooks'))
     mode:bind({}, 'c', app_man:toggle('Google Chrome'))
     mode:bind({}, 'd', app_man:toggle('Discord'))
     mode:bind({'shift'}, 'd', app_man:toggle('Docker'))
-    mode:bind({}, 'e', app_man:toggle('Evernote'))
     mode:bind({}, 'f', app_man:toggle('Finder'))
     mode:bind({'shift'}, 'f', app_man:toggle('Firefox'))
     mode:bind({}, 'i', app_man:toggle('iTerm'))
     mode:bind({}, 'k', app_man:toggle('KakaoTalk'))
-    mode:bind({}, 'l', app_man:toggle('Line'))
-    mode:bind({}, 'm', app_man:toggle('Notes'))
     mode:bind({'shift'}, 'm', app_man:toggle('Melon'))
     mode:bind({}, 'n', app_man:toggle('Notion'))
     mode:bind({}, 'p', app_man:toggle('Preview'))
     mode:bind({'shift'}, 'p', app_man:toggle('Postico 2'))
-    mode:bind({}, 'q', app_man:toggle('Sequel Pro'))
-    mode:bind({}, 'r', app_man:toggle('Reminders'))
     mode:bind({}, 's', app_man:toggle('Slack'))
+    mode:bind({'shift'}, 's', app_man:toggle('Safari'))
     mode:bind({}, 't', app_man:toggle('Terminal'))
     mode:bind({}, 'v', app_man:toggle('Visual Studio Code'))
-    mode:bind({}, 'w', app_man:toggle('WebStorm'))
+    mode:bind({'shift'}, 'v', app_man:toggle('Tunnelblick')) -- VPN
     mode:bind({}, 'z', app_man:toggle('zoom.us'))
 
     -- mode:bind({'shift'}, 'tab', app_man.focusPreviousScreen)
     mode:bind({}, 'tab', app_man.focusNextScreen)
-
-    -- hs.hotkey.bind({'cmd', 'shift'}, 'space', app_man:toggle('Terminal'))
 
     local tabTable = {}
 
