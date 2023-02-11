@@ -1,3 +1,4 @@
 [submodule "modules/hammerspoon_winmove"]
 	path = modules/hammerspoon_winmove
 	url = git@github.com:datalater/hammerspoon_winmove.git
+	branch = main
