@@ -26,15 +26,18 @@ local function shiftHistory(text)
     end
 end
 
-local chooser = hs.chooser.new(function (choice)
-    if not choice then
+local chooser =
+    hs.chooser.new(
+    function(choice)
+        if not choice then
+            util.focusLastFocused()
+        end
+        shiftHistory(choice.text)
+        pasteboard.setContents(choice.text)
         util.focusLastFocused()
+        hs.eventtap.keyStroke({"cmd"}, "v")
     end
-    shiftHistory(choice.text)
-    pasteboard.setContents(choice.text)
-    util.focusLastFocused()
-    hs.eventtap.keyStroke({"cmd"}, "v")
-end)
+)
 
 function clearSizeOver()
     while (#history >= historySize) do
@@ -43,29 +46,33 @@ function clearSizeOver()
 end
 
 function storeCopy()
-
     clearSizeOver()
 
     local content = pasteboard.getContents()
 
     if #history < 1 or not (history[1].text == content) then
-        table.insert(history, 1, {text = content, subText = 'size: ' .. utf8.len(content)})
+        table.insert(history, 1, {text = content, subText = "size: " .. utf8.len(content)})
     end
 end
 
-copy = hs.hotkey.bind({"cmd"}, "c", function()
-    copy:disable()
-    hs.eventtap.keyStroke({"cmd"}, "c")
-    copy:enable()
-    hs.timer.doAfter(0.1, storeCopy)
-end)
+copy =
+    hs.hotkey.bind(
+    {"cmd"},
+    "c",
+    function()
+        copy:disable()
+        hs.eventtap.keyStroke({"cmd"}, "c")
+        copy:enable()
+        hs.timer.doAfter(0.1, storeCopy)
+    end
+)
 
 local obj = {}
 
 function obj.showList()
     local content = pasteboard.getContents()
     if #history < 1 or not (history[1].text == content) then
-        table.insert(history, 1, {text = content, subText = 'size: ' .. utf8.len(content)})
+        table.insert(history, 1, {text = content, subText = "size: " .. utf8.len(content)})
     end
     chooser:choices(history)
     chooser:show()
