@@ -59,6 +59,7 @@ do -- app manager
     mode:bind({}, "t", app_man:toggle("Terminal"))
     mode:bind({}, "v", app_man:toggle("Visual Studio Code"))
     mode:bind({"shift"}, "v", app_man:toggle("Tunnelblick")) -- VPN
+    mode:bind({}, "x", app_man:toggle("Simulator")) -- Xcode Simulator
     mode:bind({}, "z", app_man:toggle("zoom.us"))
 
     -- mode:bind({'shift'}, 'tab', app_man.focusPreviousScreen)
