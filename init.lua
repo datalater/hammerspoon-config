@@ -42,6 +42,7 @@ do -- app manager
     local app_man = require("modules.appman")
     local mode = f13_mode
 
+    mode:bind({}, "a", app_man:toggle("Arc"))
     mode:bind({}, "b", app_man:toggle("Ridibooks"))
     mode:bind({}, "c", app_man:toggle("Google Chrome"))
     mode:bind({}, "d", app_man:toggle("Discord"))
@@ -51,8 +52,8 @@ do -- app manager
     mode:bind({}, "e", app_man:toggle("Microsoft Edge"))
     mode:bind({}, "i", app_man:toggle("iTerm"))
     mode:bind({}, "k", app_man:toggle("KakaoTalk"))
-    mode:bind({}, "m", app_man:toggle("Notes"))
-    mode:bind({"shift"}, "m", app_man:toggle("Melon"))
+    mode:bind({}, "m", app_man:toggle("Melon"))
+    mode:bind({"shift"}, "m", app_man:toggle("Notes"))
     mode:bind({}, "n", app_man:toggle("Notion"))
     mode:bind({}, "p", app_man:toggle("Preview"))
     mode:bind({"shift"}, "p", app_man:toggle("Postico 2"))
