@@ -156,8 +156,15 @@ do -- winmove
     mode:bind({}, "r", win_move.left_sub)
     mode:bind({}, "t", win_move.right_sub)
 
-    mode:bind({}, "a", win_move.left_padding_plus)
-    mode:bind({}, "f", win_move.right_padding_plus)
+    mode:bind({}, "a", win_move.left_main_2)
+    mode:bind({}, "s", win_move.center_main_2)
+    mode:bind({}, "d", win_move.right_main_2)
+    mode:bind({}, "f", win_move.left_sub_2)
+    mode:bind({}, "g", win_move.right_sub_2)
+
+    mode:bind({"shift"}, "a", win_move.left_padding_plus)
+    mode:bind({"shift"}, "f", win_move.right_padding_plus)
+    
     mode:bind({}, "z", win_move.flex_left)
     mode:bind({}, "v", win_move.flex_right)
     mode:bind({}, "c", win_move.flex_top)
