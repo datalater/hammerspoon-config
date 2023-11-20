@@ -55,6 +55,7 @@ do -- app manager
     mode:bind({}, "m", app_man:toggle("Melon"))
     mode:bind({"shift"}, "m", app_man:toggle("Notes"))
     mode:bind({}, "n", app_man:toggle("Notion"))
+    mode:bind({}, "o", app_man:toggle("OrbStack"))
     mode:bind({}, "p", app_man:toggle("Preview"))
     mode:bind({"shift"}, "p", app_man:toggle("Postico 2"))
     mode:bind({}, "s", app_man:toggle("Slack"))
