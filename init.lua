@@ -50,6 +50,7 @@ do -- app manager
     mode:bind({}, "e", app_man:toggle("Microsoft Edge"))
     mode:bind({}, "f", app_man:toggle("Finder"))
     mode:bind({"shift"}, "f", app_man:toggle("Firefox"))
+    mode:bind({}, "h", app_man:toggle("Heynote"))
     mode:bind({}, "i", app_man:toggle("iTerm"))
     mode:bind({}, "k", app_man:toggle("KakaoTalk"))
     mode:bind({}, "m", app_man:toggle("Melon"))
