@@ -49,6 +49,8 @@ do -- app manager
     mode:bind({"shift"}, "d", app_man:toggle("Docker"))
     mode:bind({}, "e", app_man:toggle("Microsoft Edge"))
     mode:bind({}, "f", app_man:toggle("Finder"))
+    mode:bind({}, "g", app_man:toggle("ChatGPT"))
+    mode:bind({"shift"}, "g", app_man:toggle("Gifox"))
     mode:bind({"shift"}, "f", app_man:toggle("Firefox"))
     mode:bind({}, "h", app_man:toggle("Heynote"))
     mode:bind({}, "i", app_man:toggle("iTerm"))
