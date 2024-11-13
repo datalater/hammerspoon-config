@@ -66,7 +66,8 @@ do -- app manager
     mode:bind({}, "t", app_man:toggle("Typora"))
     mode:bind({}, "v", app_man:toggle("Visual Studio Code"))
     mode:bind({"shift"}, "v", app_man:toggle("Tunnelblick")) -- VPN
-    mode:bind({}, "x", app_man:toggle("Simulator")) -- Xcode Simulator
+    mode:bind({}, "x", app_man:toggle("Cursor"))
+    -- mode:bind({}, "x", app_man:toggle("Simulator")) -- Xcode Simulator
     mode:bind({}, "y", app_man:toggle("YES24 eBook"))
     mode:bind({}, "z", app_man:toggle("zoom.us"))
 
@@ -168,7 +169,7 @@ do -- winmove
 
     mode:bind({"shift"}, "a", win_move.left_padding_plus)
     mode:bind({"shift"}, "f", win_move.right_padding_plus)
-    
+
     mode:bind({}, "z", win_move.flex_left)
     mode:bind({}, "v", win_move.flex_right)
     mode:bind({}, "c", win_move.flex_top)
