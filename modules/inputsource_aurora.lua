@@ -1,36 +1,38 @@
 local boxes = {}
-local inputEnglish = "com.apple.keylayout.ABC"
 local box_alpha = 0.5
+
+local inputEnglish = "com.apple.keylayout.ABC"
+local inputKorean = "com.apple.inputmethod.Korean"
+local inputJapanese = "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese"
+
+-- 입력 소스별 색상 매핑
+-- @see https://github.com/Hammerspoon/hammerspoon/blob/master/extensions/drawing/color/drawing_color.lua#L170
+local input_source_colors = {
+    [inputKorean] = hs.drawing.color.osx_green,
+    [inputJapanese] = hs.drawing.color.x11.indianred
+}
+local default_color = hs.drawing.color.osx_green
 
 -- 입력소스 변경 이벤트에 이벤트 리스너를 달아준다
 hs.keycodes.inputSourceChanged(
     function()
         local input_source = hs.keycodes.currentSourceID()
-        show_status_bar(not (input_source == inputEnglish))
+        if input_source == inputEnglish then
+            disable_show()
+        else
+            local color = input_source_colors[input_source] or default_color
+            enable_show(color)
+        end
     end
 )
 
-function show_aurora(scr)
-    local box = hs.drawing.rectangle(hs.geometry.rect(0, 0, 0, 0))
-    draw_rectangle(box, scr, 0, scr:fullFrame().w, hs.drawing.color.osx_green)
-    table.insert(boxes, box)
-end
-
-function show_status_bar(stat)
-    if stat then
-        enable_show()
-    else
-        disable_show()
-    end
-end
-
-function enable_show()
-    show_status_bar(false)
+function enable_show(color)
+    disable_show() -- 기존 표시 제거
     reset_boxes()
     hs.fnutils.each(
         hs.screen.allScreens(),
         function(scr)
-            show_aurora(scr)
+            show_aurora(scr, color)
         end
     )
 end
@@ -45,6 +47,12 @@ function disable_show()
         end
     )
     reset_boxes()
+end
+
+function show_aurora(scr, color)
+    local box = hs.drawing.rectangle(hs.geometry.rect(0, 0, 0, 0))
+    draw_rectangle(box, scr, 0, scr:fullFrame().w, color)
+    table.insert(boxes, box)
 end
 
 function reset_boxes()
