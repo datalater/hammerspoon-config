@@ -38,6 +38,42 @@ do -- hints
     -- hs.hints.hintChars = {'q', 'w', 'e', 'r', 'u', 'i', 'o', 'p', 'h', 'j', 'k', 'l', 'm', ',', '.' }
 end
 
+do -- input source switcher
+    local inputEnglish = "com.apple.keylayout.ABC"
+    local inputKorean = "com.apple.inputmethod.Korean.2SetKorean"
+    local inputJapanese = "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese"
+    
+    f13_mode:bind({}, "1", function()
+        hs.keycodes.currentSourceID(inputEnglish)
+    end)
+    
+    f13_mode:bind({}, "2", function()
+        hs.keycodes.currentSourceID(inputKorean)
+    end)
+    
+    f13_mode:bind({}, "3", function()
+        hs.keycodes.currentSourceID(inputJapanese)
+    end)
+
+    f13_mode:bind({}, "0", function()
+        hs.alert.show(hs.keycodes.currentSourceID())
+    end)
+end
+
+do -- input source toggle between English and Korean with F19(karabiner binding tab to f19)
+    hs.hotkey.bind({}, "f19", function()
+        local current = hs.keycodes.currentSourceID()
+        local inputEnglish = "com.apple.keylayout.ABC"
+        local inputKorean = "com.apple.inputmethod.Korean.2SetKorean"
+        
+        if current == inputEnglish then
+            hs.keycodes.currentSourceID(inputKorean)
+        else
+            hs.keycodes.currentSourceID(inputEnglish)
+        end
+    end)
+end
+
 do -- app manager
     local app_man = require("modules.appman")
     local mode = f13_mode
