@@ -104,7 +104,7 @@ do -- app manager
     mode:bind({"shift"}, "v", app_man:toggle("Tunnelblick")) -- VPN
     mode:bind({}, "x", app_man:toggle("Cursor"))
     -- mode:bind({}, "x", app_man:toggle("Simulator")) -- Xcode Simulator
-    mode:bind({}, "y", app_man:toggle("YES24 eBook"))
+    mode:bind({}, "y", app_man:toggle("YES24_eBook"))
     mode:bind({}, "z", app_man:toggle("zoom.us"))
 
     -- mode:bind({'shift'}, 'tab', app_man.focusPreviousScreen)
