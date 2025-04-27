@@ -101,8 +101,9 @@ do -- app manager
     mode:bind({}, "s", app_man:toggle("Slack"))
     mode:bind({"shift"}, "s", app_man:toggle("Safari"))
     mode:bind({}, "t", app_man:toggle("Typora"))
-    mode:bind({}, "v", app_man:toggle("Visual Studio Code"))
-    mode:bind({"shift"}, "v", app_man:toggle("Tunnelblick")) -- VPN
+    -- mode:bind({}, "v", app_man:toggle("Visual Studio Code"))
+    mode:bind({}, "v", app_man:toggle("Vivaldi"))
+    -- mode:bind({"shift"}, "v", app_man:toggle("Tunnelblick")) -- VPN
     mode:bind({}, "x", app_man:toggle("Cursor"))
     mode:bind({}, "w", app_man:toggle("superwhisper"))
     -- mode:bind({}, "x", app_man:toggle("Simulator")) -- Xcode Simulator
