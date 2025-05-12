@@ -227,4 +227,296 @@ do -- clipboard history
     f13_mode:bind({"shift"}, "`", clipboard.clear)
 end
 
+do -- mouse mode
+    -- 단축키 설정
+    local KEYBINDINGS = {
+        MODE_TOGGLE = "f14",        -- 마우스 모드 토글 (win_move에서 사용하는 F14 사용)
+        MOVE = {
+            UP = "up",
+            DOWN = "down",
+            LEFT = "left",
+            RIGHT = "right"
+        },
+        CLICK = {
+            LEFT = ",",             -- 좌클릭
+            RIGHT = "."             -- 우클릭
+        },
+        SCROLL = {
+            LEFT = "h",             -- 스크롤 왼쪽
+            UP = "j",               -- 스크롤 위
+            DOWN = "k",             -- 스크롤 아래
+            RIGHT = "l"             -- 스크롤 오른쪽
+        },
+        SPEED = {
+            DECREASE = "[",         -- 속도 감소
+            INCREASE = "]"          -- 속도 증가
+        }
+    }
+
+    -- 속도 관련 설정
+    local SPEED_SETTINGS = {
+        MIN = 1,     -- 최소 속도
+        MAX = 20,    -- 최대 속도
+        STEP = 1,    -- 속도 조절 단위
+        DEFAULT = 4  -- 기본 속도
+    }
+
+    -- 마우스 모드 설정
+    local mouse_mode = f14_mode  -- 기존 f14_mode 사용
+    local move_timer = nil
+    local scroll_timer = nil
+    local move_speed = hs.settings.get("mouse_move_speed") or SPEED_SETTINGS.DEFAULT
+
+    -- 현재 눌린 키 상태를 추적
+    local key_state = {
+        up = false,
+        down = false,
+        left = false,
+        right = false,
+        scroll_up = false,
+        scroll_down = false,
+        scroll_left = false,
+        scroll_right = false
+    }
+
+    -- 마우스 클릭 함수
+    local function leftClick()
+        -- 현재 마우스 위치 저장
+        local pos = hs.mouse.getAbsolutePosition()
+        
+        -- 좌클릭 이벤트 생성 및 실행
+        local clickEvent = hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseDown, pos)
+        clickEvent:post()
+        
+        -- 약간의 딜레이 후 마우스 업 이벤트 실행
+        hs.timer.doAfter(0.01, function()
+            local upEvent = hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.leftMouseUp, pos)
+            upEvent:post()
+        end)
+        
+        -- 클릭 피드백 표시
+        hs.alert.show("Click", 0.3)
+    end
+
+    -- 우클릭 함수
+    local function rightClick()
+        -- 현재 마우스 위치 저장
+        local pos = hs.mouse.getAbsolutePosition()
+        
+        -- 우클릭 이벤트 생성 및 실행
+        local clickEvent = hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.rightMouseDown, pos)
+        clickEvent:post()
+        
+        -- 약간의 딜레이 후 마우스 업 이벤트 실행
+        hs.timer.doAfter(0.01, function()
+            local upEvent = hs.eventtap.event.newMouseEvent(hs.eventtap.event.types.rightMouseUp, pos)
+            upEvent:post()
+        end)
+        
+        -- 클릭 피드백 표시
+        hs.alert.show("Right Click", 0.3)
+    end
+
+    -- 스크롤 함수
+    local function scroll()
+        local dx, dy = 0, 0
+        
+        -- 각 방향의 상태에 따라 스크롤량 계산
+        if key_state.scroll_left then dx = dx - 10 end
+        if key_state.scroll_right then dx = dx + 10 end
+        if key_state.scroll_up then dy = dy - 10 end
+        if key_state.scroll_down then dy = dy + 10 end
+        
+        -- 스크롤 이벤트 생성 및 실행
+        if dx ~= 0 or dy ~= 0 then
+            local scrollEvent = hs.eventtap.event.newScrollEvent({dx, dy}, {}, "pixel")
+            scrollEvent:post()
+        end
+    end
+
+    -- 속도 조절 함수
+    local function adjustSpeed(increase)
+        local old_speed = move_speed
+        if increase then
+            move_speed = math.min(move_speed + SPEED_SETTINGS.STEP, SPEED_SETTINGS.MAX)
+        else
+            move_speed = math.max(move_speed - SPEED_SETTINGS.STEP, SPEED_SETTINGS.MIN)
+        end
+        
+        -- 속도가 변경된 경우에만 저장하고 피드백 표시
+        if old_speed ~= move_speed then
+            hs.settings.set("mouse_move_speed", move_speed)
+            -- 속도 표시 (1초 동안 표시)
+            hs.alert.show(string.format("Speed: %d", move_speed), 1)
+        end
+    end
+
+    -- 마우스 이동 함수
+    local function moveMouse()
+        local dx, dy = 0, 0
+        
+        -- 각 방향의 상태에 따라 이동량 계산
+        if key_state.up then dy = dy - move_speed end
+        if key_state.down then dy = dy + move_speed end
+        if key_state.left then dx = dx - move_speed end
+        if key_state.right then dx = dx + move_speed end
+        
+        -- 대각선 이동 시 속도 정규화 (대각선이 더 빠르지 않도록)
+        if dx ~= 0 and dy ~= 0 then
+            local factor = 1 / math.sqrt(2)
+            dx = dx * factor
+            dy = dy * factor
+        end
+        
+        local pos = hs.mouse.getAbsolutePosition()
+        hs.mouse.setAbsolutePosition({x = pos.x + dx, y = pos.y + dy})
+    end
+
+    -- 타이머 시작 함수
+    local function startMoveTimer()
+        if move_timer then
+            move_timer:stop()
+        end
+        move_timer = hs.timer.new(0.016, moveMouse)  -- 약 60fps
+        move_timer:start()
+    end
+
+    -- 타이머 정지 함수
+    local function stopMoveTimer()
+        if move_timer then
+            move_timer:stop()
+            move_timer = nil
+        end
+    end
+
+    -- 스크롤 타이머 시작 함수
+    local function startScrollTimer()
+        if scroll_timer then
+            scroll_timer:stop()
+        end
+        scroll_timer = hs.timer.new(0.016, scroll)  -- 약 60fps
+        scroll_timer:start()
+    end
+
+    -- 스크롤 타이머 정지 함수
+    local function stopScrollTimer()
+        if scroll_timer then
+            scroll_timer:stop()
+            scroll_timer = nil
+        end
+    end
+
+    -- F14 키로 마우스 모드 활성화/비활성화
+    hs.hotkey.bind({}, KEYBINDINGS.MODE_TOGGLE, function()
+        mouse_mode:enter()
+        hs.alert.show("Mouse Mode: ON")
+    end, function()
+        mouse_mode:exit()
+        -- 모든 키 상태 초기화
+        for k in pairs(key_state) do
+            key_state[k] = false
+        end
+        stopMoveTimer()
+        stopScrollTimer()
+        hs.alert.show("Mouse Mode: OFF")
+    end)
+
+    -- 마우스 모드에서 방향키로 커서 이동
+    mouse_mode:bind({}, KEYBINDINGS.MOVE.UP, function()
+        key_state.up = true
+        startMoveTimer()
+    end, function()
+        key_state.up = false
+        if not (key_state.down or key_state.left or key_state.right) then
+            stopMoveTimer()
+        end
+    end)
+
+    mouse_mode:bind({}, KEYBINDINGS.MOVE.DOWN, function()
+        key_state.down = true
+        startMoveTimer()
+    end, function()
+        key_state.down = false
+        if not (key_state.up or key_state.left or key_state.right) then
+            stopMoveTimer()
+        end
+    end)
+
+    mouse_mode:bind({}, KEYBINDINGS.MOVE.LEFT, function()
+        key_state.left = true
+        startMoveTimer()
+    end, function()
+        key_state.left = false
+        if not (key_state.up or key_state.down or key_state.right) then
+            stopMoveTimer()
+        end
+    end)
+
+    mouse_mode:bind({}, KEYBINDINGS.MOVE.RIGHT, function()
+        key_state.right = true
+        startMoveTimer()
+    end, function()
+        key_state.right = false
+        if not (key_state.up or key_state.down or key_state.left) then
+            stopMoveTimer()
+        end
+    end)
+
+    -- 속도 조절 단축키
+    mouse_mode:bind({}, KEYBINDINGS.SPEED.DECREASE, function()
+        adjustSpeed(false)  -- 속도 감소
+    end)
+
+    mouse_mode:bind({}, KEYBINDINGS.SPEED.INCREASE, function()
+        adjustSpeed(true)   -- 속도 증가
+    end)
+
+    -- 좌클릭 단축키
+    mouse_mode:bind({}, KEYBINDINGS.CLICK.LEFT, leftClick)
+
+    -- 우클릭 단축키
+    mouse_mode:bind({}, KEYBINDINGS.CLICK.RIGHT, rightClick)
+
+    -- 스크롤 단축키 (vim 스타일)
+    mouse_mode:bind({}, KEYBINDINGS.SCROLL.LEFT, function()
+        key_state.scroll_left = true
+        startScrollTimer()
+    end, function()
+        key_state.scroll_left = false
+        if not (key_state.scroll_right or key_state.scroll_up or key_state.scroll_down) then
+            stopScrollTimer()
+        end
+    end)
+
+    mouse_mode:bind({}, KEYBINDINGS.SCROLL.UP, function()
+        key_state.scroll_up = true
+        startScrollTimer()
+    end, function()
+        key_state.scroll_up = false
+        if not (key_state.scroll_left or key_state.scroll_right or key_state.scroll_down) then
+            stopScrollTimer()
+        end
+    end)
+
+    mouse_mode:bind({}, KEYBINDINGS.SCROLL.DOWN, function()
+        key_state.scroll_down = true
+        startScrollTimer()
+    end, function()
+        key_state.scroll_down = false
+        if not (key_state.scroll_left or key_state.scroll_right or key_state.scroll_up) then
+            stopScrollTimer()
+        end
+    end)
+
+    mouse_mode:bind({}, KEYBINDINGS.SCROLL.RIGHT, function()
+        key_state.scroll_right = true
+        startScrollTimer()
+    end, function()
+        key_state.scroll_right = false
+        if not (key_state.scroll_left or key_state.scroll_up or key_state.scroll_down) then
+            stopScrollTimer()
+        end
+    end)
+end
+
 hs.alert.show("loaded")
