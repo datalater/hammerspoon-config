@@ -409,7 +409,7 @@ do -- mouse mode
     -- F14 키로 마우스 모드 활성화/비활성화
     hs.hotkey.bind({}, KEYBINDINGS.MODE_TOGGLE, function()
         mouse_mode:enter()
-        hs.alert.show("Mouse Mode: ON")
+        -- hs.alert.show("Mouse Mode: ON")
     end, function()
         mouse_mode:exit()
         -- 모든 키 상태 초기화
@@ -418,7 +418,7 @@ do -- mouse mode
         end
         stopMoveTimer()
         stopScrollTimer()
-        hs.alert.show("Mouse Mode: OFF")
+        -- hs.alert.show("Mouse Mode: OFF")
     end)
 
     -- 마우스 모드에서 방향키로 커서 이동
