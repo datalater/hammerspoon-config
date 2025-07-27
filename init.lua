@@ -93,6 +93,7 @@ do -- app manager
     mode:bind({}, "i", app_man:toggle("iTerm"))
     mode:bind({}, "j", app_man:toggle("IntelliJ IDEA CE"))
     mode:bind({}, "k", app_man:toggle("KakaoTalk"))
+    mode:bind({}, "l", app_man:toggle("LINE"))
     mode:bind({}, "m", app_man:toggle("Melon"))
     mode:bind({"shift"}, "m", app_man:toggle("Notes"))
     mode:bind({}, "n", app_man:toggle("Notion"))
