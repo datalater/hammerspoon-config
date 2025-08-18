@@ -10,7 +10,7 @@
 # hammerspoon 설치
 brew install --cask hammerspoon
 
-# 👉 submodule이 필요하므로 반드시 --reccursive 옵션을 붙여서 클론
+# 👉 submodule이 필요하므로 반드시 --recursive 옵션(= `--recurse-submodules`)을 붙여서 클론
 git clone --recursive git@github.com:datalater/hammerspoon-config.git
 
 # hammerspoon-config 폴더로 이동
