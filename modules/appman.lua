@@ -1,9 +1,26 @@
 local obj = {}
 local app_mode = hs.hotkey.modal.new()
 
-local function findRunningAppByExactName(name)
+local function escape_lua_pattern(s)
+    return (s:gsub("([%^%$%(%)%%%.%[%]%*%+%-%?])", "%%%1"))
+end
+
+local function matchesBundleByName(app, name)
+    if not app or not name then return false end
+    local p = app:path()
+    if not p then
+        -- Fallback to exact display name when path is unavailable
+        return app:name() == name
+    end
+    local lp = string.lower(p)
+    local escaped = escape_lua_pattern(string.lower(name))
+    local needle = "/" .. escaped .. "%.app$"
+    return string.match(lp, needle) ~= nil
+end
+
+local function findRunningAppByBundleName(name)
     for _, a in ipairs(hs.application.runningApplications()) do
-        if a and a:name() == name then
+        if matchesBundleByName(a, name) then
             return a
         end
     end
@@ -13,19 +30,12 @@ end
 function obj:toggle(name)
     return function()
         local front = hs.application.frontmostApplication()
-        if front then
-            local p = front:path()
-            if p then
-                local lp = string.lower(p)
-                local needle = string.lower(name) .. "%.app$"
-                if string.match(lp, needle) then
-                    return front:hide()
-                end
-            end
+        if front and matchesBundleByName(front, name) then
+            return front:hide()
         end
 
-        -- Prefer activating a running app that exactly matches the given name
-        local app = findRunningAppByExactName(name)
+        -- Prefer activating a running app that exactly matches the bundle name
+        local app = findRunningAppByBundleName(name)
         if app then
             app:unhide()
             app:activate(true)
