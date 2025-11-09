@@ -3,18 +3,35 @@ local app_mode = hs.hotkey.modal.new()
 
 function obj:toggle(name)
     return function()
-        local activated = hs.application.frontmostApplication()
-        local path = string.lower(activated:path())
-
-        if string.match(path, string.lower(name) .. "%.app$") then
-            return activated:hide()
+        local front = hs.application.frontmostApplication()
+        if front then
+            local path = front:path() and string.lower(front:path()) or ""
+            if string.match(path, string.lower(name) .. "%.app$") then
+                return front:hide()
+            end
         end
 
-        hs.application.launchOrFocus(name)
+        -- Prefer activating an existing app instance to avoid spawning new windows
+        local app = hs.application.get(name)
+        if app then
+            app:unhide()
+            app:activate(true)
+            local win = app:mainWindow() or app:focusedWindow()
+            if not win then
+                local wins = app:allWindows()
+                if #wins > 0 then win = wins[1] end
+            end
+            if win then win:focus() end
+        else
+            hs.application.launchOrFocus(name)
+        end
 
-        local screen = hs.window.focusedWindow():frame()
-        local pt = hs.geometry.rectMidPoint(screen)
-        hs.mouse.setAbsolutePosition(pt)
+        -- Safely move the mouse to the focused window's center if available
+        local fw = hs.window.focusedWindow()
+        if fw then
+            local pt = hs.geometry.rectMidPoint(fw:frame())
+            hs.mouse.setAbsolutePosition(pt)
+        end
         app_mode.triggered = true
     end
 end
