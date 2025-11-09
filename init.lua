@@ -78,7 +78,8 @@ do -- app manager
     local app_man = require("modules.appman")
     local mode = f13_mode
 
-    mode:bind({}, "a", app_man:toggle("Arc"))
+    -- mode:bind({}, "a", app_man:toggle("Arc"))
+    mode:bind({}, "a", app_man:toggle("ChatGPT Atlas"))
     mode:bind({"shift"}, "a", app_man:toggle("Android Studio"))
     mode:bind({}, "b", app_man:toggle("Ridibooks"))
     mode:bind({}, "c", app_man:toggle("Google Chrome"))
