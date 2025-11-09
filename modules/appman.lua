@@ -1,18 +1,31 @@
 local obj = {}
 local app_mode = hs.hotkey.modal.new()
 
+local function findRunningAppByExactName(name)
+    for _, a in ipairs(hs.application.runningApplications()) do
+        if a and a:name() == name then
+            return a
+        end
+    end
+    return nil
+end
+
 function obj:toggle(name)
     return function()
         local front = hs.application.frontmostApplication()
         if front then
-            local path = front:path() and string.lower(front:path()) or ""
-            if string.match(path, string.lower(name) .. "%.app$") then
-                return front:hide()
+            local p = front:path()
+            if p then
+                local lp = string.lower(p)
+                local needle = string.lower(name) .. "%.app$"
+                if string.match(lp, needle) then
+                    return front:hide()
+                end
             end
         end
 
-        -- Prefer activating an existing app instance to avoid spawning new windows
-        local app = hs.application.get(name)
+        -- Prefer activating a running app that exactly matches the given name
+        local app = findRunningAppByExactName(name)
         if app then
             app:unhide()
             app:activate(true)

@@ -1,5 +1,11 @@
 # Hammerspoon 설정
 
+- [설치](#설치)
+- [설치 확인](#설치-확인)
+- [appman.toggle 사용법](#appmantoggle-사용법)
+- [Misc](#misc)
+- [📚 함께 읽기](#-함께-읽기)
+
 앱 전환이나 창 분할 등의 기능을 구현한 Hammerspoon 설정 파일
 
 > Hammerspoon: macOS 자동화 도구
@@ -33,6 +39,18 @@ rm -rf ~/.hammerspoon && ln -s $(pwd) ~/.hammerspoon
 2. 메뉴바에에서 Hammerspoon 우클릭 후 Reload config를 눌러서 `loaded` 메시지가 나오면 성공입니다.
 
 ![hammerspoon-reload-config](https://user-images.githubusercontent.com/8105528/218239932-bd9b9f81-2b7e-4cf6-86e3-a8dddfb11ab1.gif)
+
+## appman.toggle 사용법
+
+```sh
+# 아래 명령어로 설치된 앱 목록을 확인할 수 있습니다.
+# 그 앱 이름을 사용하세요. `ChatGPT Atlas.app` => `ChatGPT Atlas`
+ls /Applications
+```
+
+```lua
+mode:bind({}, "a", app_man:toggle("ChatGPT Atlas"))
+```
 
 ## Misc
 
