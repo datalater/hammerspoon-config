@@ -18,13 +18,80 @@ local function matchesBundleByName(app, name)
     return string.match(lp, needle) ~= nil
 end
 
-local function findRunningAppByBundleName(name)
+local function normalizeTarget(target)
+    local normalized
+    if type(target) == "string" then
+        normalized = {name = target}
+    elseif type(target) == "table" then
+        normalized = {
+            name = target.name or target[1],
+            bundleID = target.bundleID or target.bundleId or target.id,
+            path = target.path
+        }
+    else
+        error("toggle target must be a string or table", 2)
+    end
+
+    if normalized.path then
+        local abs = hs.fs and hs.fs.pathToAbsolute(normalized.path) or nil
+        normalized.path = abs or normalized.path
+        normalized._pathLower = string.lower(normalized.path)
+    end
+
+    if not (normalized.name or normalized.bundleID or normalized.path) then
+        error("toggle target requires at least one of name, bundleID, or path", 2)
+    end
+
+    return normalized
+end
+
+local function matchesTarget(app, target)
+    if not app or not target then return false end
+
+    if target.bundleID then
+        local ok, bundleID = pcall(function() return app:bundleID() end)
+        if ok and bundleID == target.bundleID then return true end
+    end
+
+    if target._pathLower then
+        local p = app:path()
+        if p and string.lower(p) == target._pathLower then
+            return true
+        end
+    end
+
+    if target.name then
+        return matchesBundleByName(app, target.name)
+    end
+
+    return false
+end
+
+local function findRunningApp(target)
     for _, a in ipairs(hs.application.runningApplications()) do
-        if matchesBundleByName(a, name) then
+        if matchesTarget(a, target) then
             return a
         end
     end
     return nil
+end
+
+local function launchTarget(target)
+    if target.bundleID then
+        local ok, res = pcall(hs.application.launchOrFocusByBundleID, target.bundleID)
+        if ok and res then return true end
+    end
+
+    if target.path then
+        local ok = hs.application.launchOrFocus(target.path)
+        if ok then return true end
+    end
+
+    if target.name then
+        return hs.application.launchOrFocus(target.name)
+    end
+
+    return false
 end
 
 local function focusWindow(win)
@@ -34,14 +101,15 @@ local function focusWindow(win)
 end
 
 function obj:toggle(name)
+    local target = normalizeTarget(name)
     return function()
         local front = hs.application.frontmostApplication()
-        if front and matchesBundleByName(front, name) then
+        if front and matchesTarget(front, target) then
             return front:hide()
         end
 
         -- Prefer activating a running app that exactly matches the bundle name
-        local app = findRunningAppByBundleName(name)
+        local app = findRunningApp(target)
         if app then
             app:unhide()
             app:activate(true)
@@ -52,7 +120,7 @@ function obj:toggle(name)
             end
             focusWindow(win)
         else
-            hs.application.launchOrFocus(name)
+            launchTarget(target)
         end
 
         -- Safely move the mouse to the focused window's center if available

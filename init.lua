@@ -79,7 +79,7 @@ do -- app manager
     local mode = f13_mode
 
     -- mode:bind({}, "a", app_man:toggle("Arc"))
-    mode:bind({}, "a", app_man:toggle("ChatGPT Atlas"))
+    mode:bind({}, "a", app_man:toggle({name = "ChatGPT Atlas", bundleID = "com.openai.atlas"}))
     mode:bind({"shift"}, "a", app_man:toggle("Android Studio"))
     mode:bind({}, "b", app_man:toggle("Ridibooks"))
     mode:bind({}, "c", app_man:toggle("Google Chrome"))

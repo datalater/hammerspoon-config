@@ -52,6 +52,25 @@ ls /Applications
 mode:bind({}, "a", app_man:toggle("ChatGPT Atlas"))
 ```
 
+LaunchServices에서 앱 이름을 제대로 찾지 못하는 경우에는 `bundleID`나 앱 경로를 함께 넘겨서 실행할 수도 있습니다.
+
+```lua
+mode:bind({}, "a", app_man:toggle({ name = "ChatGPT Atlas", bundleID = "com.openai.atlas" }))
+```
+
+### bundleID 찾는 법
+
+1. 가장 간단한 방법은 `osascript -e 'id of application "앱 이름"'`을 실행하는 것입니다. 대부분의 앱은 이 명령으로 바로 번들 아이디가 출력됩니다.
+2. `osascript`가 실패한다면 앱 패키지에서 직접 읽어올 수 있습니다. 예를 들어 ChatGPT Atlas라면 아래처럼 실행합니다.
+
+```sh
+/usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' "/Applications/ChatGPT Atlas.app/Contents/Info.plist"
+# 또는 defaults 명령 사용
+defaults read "/Applications/ChatGPT Atlas.app/Contents/Info" CFBundleIdentifier
+```
+
+3. App Store나 iOS 앱처럼 특이한 설치 경로라면 `mdls -name kMDItemCFBundleIdentifier /경로/앱이름.app` 으로 Spotlight 메타데이터에서 확인할 수도 있습니다.
+
 ## Misc
 
 Q. M1 Mac에서 설치 오류가 난다면 어떻게 해야 하나요?
