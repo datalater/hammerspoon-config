@@ -27,6 +27,12 @@ local function findRunningAppByBundleName(name)
     return nil
 end
 
+local function focusWindow(win)
+    if not win then return end
+    if win:isMinimized() then win:unminimize() end
+    win:focus()
+end
+
 function obj:toggle(name)
     return function()
         local front = hs.application.frontmostApplication()
@@ -44,7 +50,7 @@ function obj:toggle(name)
                 local wins = app:allWindows()
                 if #wins > 0 then win = wins[1] end
             end
-            if win then win:focus() end
+            focusWindow(win)
         else
             hs.application.launchOrFocus(name)
         end
