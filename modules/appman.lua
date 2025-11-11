@@ -95,9 +95,10 @@ local function launchTarget(target)
 end
 
 local function focusWindow(win)
-    if not win then return end
+    if not win then return false end
     if win:isMinimized() then win:unminimize() end
     win:focus()
+    return true
 end
 
 function obj:toggle(name)
@@ -118,7 +119,10 @@ function obj:toggle(name)
                 local wins = app:allWindows()
                 if #wins > 0 then win = wins[1] end
             end
-            focusWindow(win)
+            local focused = focusWindow(win)
+            if not focused then
+                launchTarget(target)
+            end
         else
             launchTarget(target)
         end
