@@ -101,6 +101,11 @@ local function focusWindow(win)
     return true
 end
 
+local function isInScreen(screen, win)
+    if not win then return false end
+    return win:screen() == screen
+end
+
 function obj:toggle(name)
     local target = normalizeTarget(name)
     return function()
