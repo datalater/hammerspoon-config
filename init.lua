@@ -82,6 +82,7 @@ do -- app manager
     mode:bind({}, "a", app_man:toggle({name = "ChatGPT Atlas", bundleID = "com.openai.atlas"}))
     mode:bind({"shift"}, "a", app_man:toggle("Android Studio"))
     mode:bind({}, "b", app_man:toggle("Ridibooks"))
+    mode:bind({"shift"}, "b", app_man:toggle("Brave Browser"))
     mode:bind({}, "c", app_man:toggle("Google Chrome"))
     mode:bind({}, "d", app_man:toggle("Discord"))
     mode:bind({"shift"}, "d", app_man:toggle("Docker"))
