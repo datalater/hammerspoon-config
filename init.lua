@@ -79,8 +79,9 @@ do -- app manager
     local mode = f13_mode
 
     -- mode:bind({}, "a", app_man:toggle("Arc"))
-    mode:bind({}, "a", app_man:toggle({name = "ChatGPT Atlas", bundleID = "com.openai.atlas"}))
-    mode:bind({"shift"}, "a", app_man:toggle("Android Studio"))
+    mode:bind({}, "a", app_man:toggle("Antigravity"))
+    mode:bind({"shift"}, "a", app_man:toggle({name = "ChatGPT Atlas", bundleID = "com.openai.atlas"}))
+    -- mode:bind({"shift"}, "a", app_man:toggle("Android Studio"))
     mode:bind({}, "b", app_man:toggle("Ridibooks"))
     mode:bind({"shift"}, "b", app_man:toggle("Brave Browser"))
     mode:bind({}, "c", app_man:toggle("Google Chrome"))
