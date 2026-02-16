@@ -201,6 +201,9 @@ do -- winmove
     mode:bind({}, "7", win_move.left_top)
     mode:bind({}, "8", win_move.top)
     mode:bind({}, "9", win_move.right_top)
+    mode:bind({"shift"}, "1", win_move.copy_frame)
+    mode:bind({"shift"}, "2", win_move.apply_frame)
+    mode:bind({"shift"}, "3", win_move.show_frame)
     mode:bind({}, "-", win_move.prev_screen)
     mode:bind({}, "=", win_move.next_screen)
 
