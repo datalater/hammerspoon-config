@@ -3,6 +3,8 @@
 - [설치](#설치)
 - [설치 확인](#설치-확인)
 - [appman.toggle 사용법](#appmantoggle-사용법)
+- [pull](#pull)
+  - [bundleID 찾는 법](#bundleid-찾는-법)
 - [Misc](#misc)
 - [📚 함께 읽기](#-함께-읽기)
 
@@ -56,6 +58,13 @@ LaunchServices에서 앱 이름을 제대로 찾지 못하는 경우에는 `bund
 
 ```lua
 mode:bind({}, "a", app_man:toggle({ name = "ChatGPT Atlas", bundleID = "com.openai.atlas" }))
+```
+
+## pull
+
+```sh
+git pull --rebase origin main
+git submodule update --remote
 ```
 
 ### bundleID 찾는 법
