@@ -91,8 +91,7 @@ do -- app manager
     mode:bind({}, "f", app_man:toggle("Finder"))
     mode:bind({"shift"}, "f", app_man:toggle("Figma"))
     mode:bind({"control", "shift"}, "f", app_man:toggle("Firefox"))
-    mode:bind({}, "g", app_man:toggle("Ghostty"))
-    mode:bind({"shift"}, "g", app_man:toggle("ChatGPT"))
+    mode:bind({}, "g", app_man:toggle("ChatGPT"))
     -- mode:bind({"shift"}, "g", app_man:toggle("Gifox"))
     mode:bind({}, "h", app_man:toggle("Heynote"))
     -- intentionally bind i to Ghostty cuz I always press i for terminal
