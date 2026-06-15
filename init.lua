@@ -1,4 +1,6 @@
 -- hammerspoon config
+package.path = hs.configdir .. "/?.lua;" .. hs.configdir .. "/?/init.lua;" .. package.path
+
 require("modules.inputsource_aurora")
 
 -- Hammerspoon reload
