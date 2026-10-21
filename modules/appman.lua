@@ -9,7 +9,8 @@ local function normalizeTarget(target)
         normalized = {
             name = target.name or target[1],
             bundleID = target.bundleID or target.bundleId or target.id,
-            path = target.path
+            path = target.path,
+            windowTitle = target.windowTitle
         }
     else
         error("toggle target must be a string or table", 2)
@@ -32,7 +33,30 @@ function obj:toggle(name)
     local target = normalizeTarget(name)
 
     return function()
-        if target.bundleID then
+        if target.windowTitle then
+            -- Window-level target: match one window of an app by (partial) title.
+            local front = hs.application.frontmostApplication()
+            local focused = hs.window.focusedWindow()
+            if focused and front:name() == target.name
+                and string.find(focused:title() or "", target.windowTitle, 1, true) then
+                return front:hide()
+            end
+
+            local app = hs.application.get(target.name)
+            local win
+            for _, w in ipairs(app and app:allWindows() or {}) do
+                if string.find(w:title() or "", target.windowTitle, 1, true) then
+                    win = w
+                    break
+                end
+            end
+            if not win then
+                hs.alert.show(target.windowTitle .. " 창이 열려 있지 않습니다")
+                return
+            end
+            if win:isMinimized() then win:unminimize() end
+            win:focus()
+        elseif target.bundleID then
             local front = hs.application.frontmostApplication()
             local ok, bundleID = pcall(function() return front:bundleID() end)
             
