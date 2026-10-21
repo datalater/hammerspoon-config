@@ -3,6 +3,7 @@
 - [설치](#설치)
 - [설치 확인](#설치-확인)
 - [appman.toggle 사용법](#appmantoggle-사용법)
+  - [특정 창만 바인딩하기 (windowTitle)](#특정-창만-바인딩하기-windowtitle)
 - [pull](#pull)
   - [bundleID 찾는 법](#bundleid-찾는-법)
 - [Misc](#misc)
@@ -51,6 +52,52 @@ LaunchServices에서 앱 이름을 제대로 찾지 못하는 경우에는 `bund
 ```lua
 mode:bind({}, "a", app_man:toggle({ name = "ChatGPT Atlas", bundleID = "com.openai.atlas" }))
 ```
+
+### 특정 창만 바인딩하기 (windowTitle)
+
+같은 앱 안의 **특정 창 하나**만 단축키로 부르고 싶을 때 사용합니다. 예를 들어 크롬 확장 프로그램 창(`chrome.windows.create({ type: "popup" })`)은 별도 앱이 아니라 Chrome 프로세스 안의 창이라서, 앱 이름만으로는 일반 Chrome과 구분할 수 없습니다.
+
+```lua
+-- init.lua (F13 모드 안)
+mode:bind({"shift"}, "q", app_man:toggle({
+    name = "Google Chrome",
+    windowTitle = "QA Scenario Checker"  -- 창 제목의 일부만 맞아도 됩니다 (부분 일치, 대소문자 구분)
+}))
+```
+
+동작은 다음과 같습니다.
+
+| 상황 | 동작 |
+| --- | --- |
+| 그 창이 열려 있고 다른 창이 전면 | 그 창을 앞으로 가져옵니다. 최소화되어 있으면 복원합니다. |
+| 그 창이 이미 전면 | 앱을 숨기고(`hide()`) macOS가 직전 앱으로 돌려놓습니다. `appman.toggle("앱 이름")`과 같은 방식입니다. |
+| 그 창이 없음 | `<windowTitle> 창이 열려 있지 않습니다` 알림만 띄웁니다. 창을 새로 열지는 않습니다. |
+
+#### 새 창을 바인딩하는 순서
+
+1. **창 제목 확인**: 대상 창을 열어 둔 상태에서 Hammerspoon 콘솔(메뉴바 아이콘 → Console)에 아래를 입력합니다.
+
+   ```lua
+   for _, w in ipairs(hs.application.get("Google Chrome"):allWindows()) do print(w:title(), w:subrole()) end
+   ```
+
+   출력된 제목에서 다른 창과 겹치지 않는 부분을 `windowTitle`로 씁니다. 크롬은 보통 페이지 `<title>`이 창 제목이 됩니다.
+
+2. **빈 키 찾기**: F13 모드에서 이미 쓰는 키와 겹치지 않아야 합니다. `init.lua`에서 `mode:bind`를 검색해 확인하세요. `win_move`가 쓰는 키(`q w e r u` 등)에 주의하세요.
+
+   ```sh
+   grep -n 'mode:bind' ~/.hammerspoon/init.lua
+   ```
+
+3. **바인딩 추가**: 위 예시처럼 `init.lua`의 app manager 블록(`do -- app manager`)에 한 줄을 추가합니다.
+
+4. **적용**: `Cmd + Option + R`로 reload하고 콘솔에 오류가 없는지 확인합니다.
+
+#### 주의할 점
+
+- 창이 전면일 때 한 번 더 누르면 **앱 전체**(예: Chrome의 일반 창 포함)가 숨겨집니다. 창 하나만 숨기는 동작이 아닙니다.
+- `windowTitle`이 다른 창 제목과 겹치면 먼저 발견된 창이 선택됩니다.
+- 구현은 `modules/appman.lua`의 `windowTitle` 분기입니다. `name`은 `hs.application.get(name)`으로 앱을 찾는 값이므로 정확한 앱 이름이어야 합니다.
 
 ## pull
 
