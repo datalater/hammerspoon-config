@@ -83,10 +83,11 @@ mode:bind({"shift"}, "q", app_man:toggle({
 
    출력된 제목에서 다른 창과 겹치지 않는 부분을 `windowTitle`로 씁니다. 크롬은 보통 페이지 `<title>`이 창 제목이 됩니다.
 
-2. **빈 키 찾기**: F13 모드에서 이미 쓰는 키와 겹치지 않아야 합니다. `init.lua`에서 `mode:bind`를 검색해 확인하세요. `win_move`가 쓰는 키(`q w e r u` 등)에 주의하세요.
+2. **빈 키 찾기**: 같은 모드(F13) 안에서 이미 쓰는 키와 겹치지 않아야 합니다. 창 이동(`win_move`)은 F14 모드라서 F13 키와는 겹치지 않습니다. `init.lua`에서 `local mode = f13_mode`로 시작하는 블록(앱 토글, 클립보드)의 바인딩만 확인하면 됩니다.
 
    ```sh
-   grep -n 'mode:bind' ~/.hammerspoon/init.lua
+   # 어느 모달에 속한 바인딩인지(f13_mode / f14_mode)는 각 블록의 `local mode = ...` 줄로 구분합니다.
+   grep -nE 'local mode|mode:bind' ~/.hammerspoon/init.lua
    ```
 
 3. **바인딩 추가**: 위 예시처럼 `init.lua`의 app manager 블록(`do -- app manager`)에 한 줄을 추가합니다.
