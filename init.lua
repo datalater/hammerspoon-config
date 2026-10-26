@@ -87,7 +87,6 @@ do -- app manager
     mode:bind({"shift"}, "b", app_man:toggle("Brave Browser"))
     mode:bind({}, "c", app_man:toggle("Google Chrome"))
     mode:bind({"shift"}, "c", app_man:toggle("Google Chrome Beta"))
-    mode:bind({"shift"}, "q", app_man:toggle({name = "Google Chrome", windowTitle = "QA Scenario Checker"}))
     mode:bind({}, "d", app_man:toggle("Discord"))
     mode:bind({"shift"}, "d", app_man:toggle("Docker"))
     mode:bind({}, "e", app_man:toggle("Microsoft Edge"))
@@ -111,6 +110,7 @@ do -- app manager
     mode:bind({}, "o", app_man:toggle("OrbStack"))
     mode:bind({}, "p", app_man:toggle("Preview"))
     mode:bind({"shift"}, "p", app_man:toggle("Postico 2"))
+    mode:bind({"shift"}, "q", app_man:toggle({name = "Google Chrome", windowTitle = "QA Scenario Checker"}))
     mode:bind({}, "s", app_man:toggle("Slack"))
     mode:bind({"shift"}, "s", app_man:toggle("Safari"))
     mode:bind({}, "t", app_man:toggle("Typora"))
@@ -119,7 +119,8 @@ do -- app manager
     -- mode:bind({"shift"}, "v", app_man:toggle("Tunnelblick")) -- VPN
     mode:bind({}, "x", app_man:toggle("Cursor"))
     mode:bind({}, "w", app_man:toggle("superset"))
-    mode:bind({"shift"}, "w", app_man:toggle("superwhisper"))
+    mode:bind({"shift"}, "w", app_man:toggle({name = "Google Chrome", windowTitle = "Walkthrough"}))
+    -- mode:bind({"shift"}, "w", app_man:toggle("superwhisper"))
     mode:bind({"shift"}, "x", app_man:toggle("Simulator")) -- Xcode Simulator
     mode:bind({}, "y", app_man:toggle("YES24_eBook"))
     mode:bind({}, "z", app_man:toggle("zoom.us"))
